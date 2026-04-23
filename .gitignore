@@ -40,3 +40,7 @@ opencode.json.backup*
 dist/
 build/
 *.zip
+
+# Marketing drafts (not for distribution via git)
+.marketing/
+
