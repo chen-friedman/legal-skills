@@ -29,7 +29,8 @@ Any change to `skills/mapping-legal-cases/SKILL.md` changes behavior for all dow
 ```bash
 pytest tests/ -v
 python skills/mapping-legal-cases/scripts/extract.py --preflight --pretty
-python skills/mapping-legal-cases/scripts/extract.py --scan examples/sample-case-folder --pretty
+# To try the scanner against any folder on your machine:
+#   python skills/mapping-legal-cases/scripts/extract.py --scan <path> --pretty
 ```
 
 ### When adding a new language pack
@@ -56,9 +57,7 @@ legal-skills/
 ├── skills/<skill-name>/SKILL.md           ← follows agentskills.io spec
 ├── skills/<skill-name>/scripts/           ← executable helpers
 ├── skills/<skill-name>/references/        ← loaded on demand by agents
-├── skills/<skill-name>/assets/            ← illustrative samples
-├── examples/sample-case-folder/           ← demo input
-├── tests/                                 ← pytest tests
+├── tests/                                 ← pytest tests (fixtures generated at runtime)
 └── .github/workflows/                     ← CI
 ```
 

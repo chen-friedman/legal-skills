@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 - Separate `README.md` (English) and `README_HE.md` (Hebrew) files, matching the structure of [awesome-legaltech](https://github.com/chen-friedman/awesome-legaltech).
+- End-to-end demo case folder with real PDFs, DOCX, and emails (planned for v1.1 — v1.0 ships without demo data since contrived markdown files don't represent realistic legal documents).
 
 ## [1.0.0] - 2026-04-22
 
@@ -51,7 +52,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Cross-platform compatibility (Windows, macOS, Linux)
 - Compatible with all agentskills.io-compatible platforms (Claude Code, OpenCode, Cursor, GitHub Copilot, VS Code, Gemini CLI, OpenHands, Goose, Codex, Kiro, Roo Code, and others)
 - Claude Code plugin marketplace manifest for one-command install
-- Example case folder with expected outputs
 
 ### Security
 - Sensitive data patterns (IDs, credit cards, bank accounts, medical records, phone numbers) automatically detected and masked in PRIVACY_FLAGS.md

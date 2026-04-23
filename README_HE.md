@@ -139,7 +139,7 @@ python skills/mapping-legal-cases/scripts/extract.py --preflight --pretty
 
 ### דוגמת פלט
 
-ראו את [`examples/`](./examples/) לתיקיית תיק לדוגמה ואת [`skills/mapping-legal-cases/assets/example-output/`](./skills/mapping-legal-cases/assets/example-output/) למסמכים שנוצרו.
+ראו את [`skills/mapping-legal-cases/references/output-templates.md`](./skills/mapping-legal-cases/references/output-templates.md) למבנה המדויק של כל אחד מ-10 המסמכים שנוצרים. תיקיית הדגמה מקצה-לקצה עם קבצי PDF, DOCX ומיילים אמיתיים תגיע בגרסה v1.1.
 
 ---
 

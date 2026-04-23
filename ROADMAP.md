@@ -21,9 +21,11 @@ Contributions welcome — see `CONTRIBUTING.md`.
 
 ---
 
-## v1.1 — More languages + better OCR
+## v1.1 — Real demo + more languages + better OCR
 
-**Goal:** Expand language coverage and make OCR more accessible.
+**Goal:** Expand language coverage, provide a realistic end-to-end demo, and make OCR more accessible.
+
+- [ ] **End-to-end demo folder** with real (fictional) PDFs, DOCX, emails, spreadsheets, and images — not markdown placeholders. Published alongside expected `.casebase/` outputs.
 
 - [ ] **Italian** (`it.md`) — Italian legal system
 - [ ] **Dutch** (`nl.md`) — Netherlands + Belgium (Dutch-speaking)

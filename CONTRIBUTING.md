@@ -78,7 +78,7 @@ pytest tests/ -v
 ## Pull request guidelines
 
 - One change per PR (easier to review and revert)
-- For new language packs: include at least one sample file in your language under `examples/sample-case-folder/` (must be anonymized / fictional — never real case data)
+- For new language packs: if you want to add tests, generate fictional fixtures at runtime in `tests/` — never commit real case files
 - Keep commits focused; squash if the PR has many fix-up commits
 - Update `CHANGELOG.md` in the `[Unreleased]` section
 

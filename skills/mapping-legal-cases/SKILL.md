@@ -251,7 +251,7 @@ Show the user:
 - `references/output-templates.md` — exact templates for all 10 documents.
 - `references/keywords/common-en.md` — base English legal terminology.
 - `references/keywords/{lang}.md` — language-specific packs (loaded on demand).
-- `assets/example-output/` — sample generated documents (illustrative only).
+
 
 ## Platform notes
 

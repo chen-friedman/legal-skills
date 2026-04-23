@@ -1,7 +1,8 @@
 """Basic smoke tests for extract.py.
 
 These tests verify the extractor handles each supported file type
-without crashing and produces the expected output shape.
+without crashing and produces the expected output shape. All fixtures
+are generated at runtime so the repo ships without bundled demo data.
 """
 from __future__ import annotations
 
@@ -14,7 +15,7 @@ import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 EXTRACT = REPO_ROOT / "skills" / "mapping-legal-cases" / "scripts" / "extract.py"
-SAMPLE = REPO_ROOT / "examples" / "sample-case-folder"
+FIXTURES = REPO_ROOT / "tests" / "fixtures"
 
 
 def _run_extract(*args: str) -> dict:
@@ -29,6 +30,26 @@ def _run_extract(*args: str) -> dict:
     return json.loads(proc.stdout)
 
 
+@pytest.fixture
+def tmp_case_folder(tmp_path: Path) -> Path:
+    """Create a minimal fictional case folder at runtime (not committed to repo)."""
+    folder = tmp_path / "fictional-case"
+    (folder / "notes").mkdir(parents=True)
+    (folder / "notes" / "summary.md").write_text(
+        "# Case summary\n\nFictional dispute. Hearing scheduled for 2026-04-15.\n",
+        encoding="utf-8",
+    )
+    (folder / "ledger.csv").write_text(
+        "date,amount,note\n2026-01-01,5000,fictional payment\n",
+        encoding="utf-8",
+    )
+    (folder / "readme.txt").write_text(
+        "Fictional notes, no real data.",
+        encoding="utf-8",
+    )
+    return folder
+
+
 def test_preflight_returns_ready():
     out = _run_extract("--preflight")
     assert out["ready"] is True
@@ -36,36 +57,42 @@ def test_preflight_returns_ready():
     assert out["capabilities"]["plain_text"] is True
 
 
-def test_scan_sample_folder():
-    out = _run_extract("--scan", str(SAMPLE))
-    assert out["total_files"] > 0
+def test_scan_folder(tmp_case_folder: Path):
+    out = _run_extract("--scan", str(tmp_case_folder))
+    assert out["total_files"] >= 3
     assert "by_category" in out
+    cats = out["by_category"]
+    assert cats.get("markdown", 0) >= 1
+    assert cats.get("csv", 0) >= 1
+    assert cats.get("text", 0) >= 1
 
 
-def test_extract_markdown():
-    md_file = SAMPLE / "pleadings" / "statement-of-claim.md"
+def test_extract_markdown(tmp_case_folder: Path):
+    md_file = tmp_case_folder / "notes" / "summary.md"
     out = _run_extract(str(md_file))
     assert out["success"] is True
-    assert out["char_count"] > 100
+    assert out["char_count"] > 20
     assert out["language_detected"] == "en"
 
 
-def test_extract_csv():
-    csv_file = SAMPLE / "evidence" / "payment-history.csv"
+def test_extract_csv(tmp_case_folder: Path):
+    csv_file = tmp_case_folder / "ledger.csv"
     out = _run_extract(str(csv_file))
     assert out["success"] is True
     assert "amount" in out["text"]
 
 
-def test_extract_unknown_extension_handled_gracefully():
-    # Create a temp file with unknown extension
-    tmp = REPO_ROOT / "tests" / "fixtures" / "tmp_unknown.xyz"
-    tmp.parent.mkdir(parents=True, exist_ok=True)
+def test_extract_plain_text(tmp_case_folder: Path):
+    txt_file = tmp_case_folder / "readme.txt"
+    out = _run_extract(str(txt_file))
+    assert out["success"] is True
+    assert "Fictional" in out["text"]
+
+
+def test_extract_unknown_extension_handled_gracefully(tmp_path: Path):
+    tmp = tmp_path / "tmp_unknown.xyz"
     tmp.write_text("some text content", encoding="utf-8")
-    try:
-        out = _run_extract(str(tmp))
-        # Should either succeed via plain-text fallback or mark unsupported — never crash
-        assert "file" in out
-        assert "warnings" in out
-    finally:
-        tmp.unlink(missing_ok=True)
+    out = _run_extract(str(tmp))
+    # Should either succeed via plain-text fallback or mark unsupported -- never crash
+    assert "file" in out
+    assert "warnings" in out

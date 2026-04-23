@@ -50,9 +50,5 @@ jobs:
       - name: Run preflight
         run: python skills/mapping-legal-cases/scripts/extract.py --preflight --pretty
 
-      - name: Test folder scan on sample
-        run: python skills/mapping-legal-cases/scripts/extract.py --scan examples/sample-case-folder --pretty
-
-      - name: Run unit tests (if present)
-        if: hashFiles('tests/**/test_*.py') != ''
+      - name: Run unit tests
         run: pytest tests/ -v

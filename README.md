@@ -139,7 +139,7 @@ The extractor **auto-adapts** to whatever's installed:
 
 ### Example output
 
-See [`examples/`](./examples/) for a sample case folder and the [`skills/mapping-legal-cases/assets/example-output/`](./skills/mapping-legal-cases/assets/example-output/) folder for sample generated documents.
+See [`skills/mapping-legal-cases/references/output-templates.md`](./skills/mapping-legal-cases/references/output-templates.md) for the exact structure of each of the 10 generated documents. Real end-to-end demo folder coming in v1.1 with proper PDFs, DOCX and emails.
 
 ---
 
