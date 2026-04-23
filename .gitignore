@@ -1,0 +1,42 @@
+# Case-mapping output — users' local data, never committed
+.casebase/
+.casebase/**
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# OS
+~$*
+.fuse_hidden*
+
+# OpenCode local
+.opencode/cache/
+.opencode/logs/
+AGENTS.md.backup.*
+opencode.json.backup*
+
+# Claude Code local
+.claude/local/
+
+# Build / dist
+dist/
+build/
+*.zip

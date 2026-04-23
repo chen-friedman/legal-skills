@@ -1,0 +1,18 @@
+{
+  // OpenCode per-project configuration for legal-skills development
+  // Docs: https://opencode.ai/docs/config
+  "$schema": "https://opencode.ai/config.json",
+
+  // Let this project also see the skill we're developing, so we can test it from here
+  "permission": {
+    "skill": {
+      "mapping-legal-cases": "allow",
+      "*": "allow"
+    }
+  },
+
+  // Helpful for contributors coming from other editors
+  "instructions": [
+    "AGENTS.md"
+  ]
+}

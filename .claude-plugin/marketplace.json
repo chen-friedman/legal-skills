@@ -1,0 +1,38 @@
+{
+  "$schema": "https://claude.com/schemas/plugin-marketplace.json",
+  "name": "chen-friedman",
+  "displayName": "Chen Friedman / Lawcal AI",
+  "description": "Open-source AI agent skills for legal professionals. Currently ships mapping-legal-cases; more legal skills on the roadmap.",
+  "owner": {
+    "name": "Chen Friedman",
+    "url": "https://github.com/chen-friedman",
+    "email": "hello@lawcal.ai"
+  },
+  "plugins": [
+    {
+      "name": "legal-skills",
+      "displayName": "Legal Skills",
+      "description": "Maps a folder of legal case documents into 10 cross-referenced analysis files. Extracts text from PDFs, Word, emails, spreadsheets, images, audio, and video — across 8 languages (English, Hebrew, Arabic, Russian, Spanish, French, German, Portuguese).",
+      "version": "1.0.0",
+      "author": "Chen Friedman",
+      "license": "Apache-2.0",
+      "homepage": "https://github.com/chen-friedman/legal-skills",
+      "repository": "https://github.com/chen-friedman/legal-skills",
+      "skills": [
+        "./skills/mapping-legal-cases"
+      ],
+      "keywords": [
+        "legal",
+        "law",
+        "legaltech",
+        "case-management",
+        "document-analysis",
+        "multilingual",
+        "privacy",
+        "hebrew",
+        "arabic",
+        "international"
+      ]
+    }
+  ]
+}

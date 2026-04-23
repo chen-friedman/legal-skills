@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/chen-friedman/legal-skills/discussions
+    about: Ask questions, share ideas, and chat with the community
+  - name: 🔒 Security vulnerability
+    url: https://github.com/chen-friedman/legal-skills/security/advisories/new
+    about: Report a security vulnerability privately (do NOT open a public issue)
+  - name: 📚 Related — awesome-legaltech
+    url: https://github.com/chen-friedman/awesome-legaltech
+    about: Curated open-source Legal AI & LegalTech resources

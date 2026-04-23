@@ -1,0 +1,106 @@
+name: Validate Skill
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**'
+      - '.github/workflows/validate-skill.yml'
+  pull_request:
+    paths:
+      - 'skills/**'
+      - '.github/workflows/validate-skill.yml'
+
+jobs:
+  validate:
+    name: Validate SKILL.md frontmatter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pyyaml
+        run: pip install pyyaml
+
+      - name: Validate all SKILL.md files
+        run: |
+          python <<'EOF'
+          import re
+          import sys
+          import yaml
+          from pathlib import Path
+
+          errors = []
+          name_re = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
+          skill_files = list(Path('skills').rglob('SKILL.md'))
+
+          if not skill_files:
+              print('No SKILL.md files found')
+              sys.exit(1)
+
+          for skill_file in skill_files:
+              print(f'Checking {skill_file}')
+              content = skill_file.read_text(encoding='utf-8')
+              if not content.startswith('---'):
+                  errors.append(f'{skill_file}: missing YAML frontmatter')
+                  continue
+              parts = content.split('---', 2)
+              if len(parts) < 3:
+                  errors.append(f'{skill_file}: malformed frontmatter')
+                  continue
+              try:
+                  fm = yaml.safe_load(parts[1])
+              except yaml.YAMLError as e:
+                  errors.append(f'{skill_file}: YAML parse error: {e}')
+                  continue
+
+              # Required fields
+              if 'name' not in fm:
+                  errors.append(f'{skill_file}: missing required field "name"')
+              if 'description' not in fm:
+                  errors.append(f'{skill_file}: missing required field "description"')
+
+              # name validation
+              name = fm.get('name', '')
+              if not isinstance(name, str):
+                  errors.append(f'{skill_file}: name must be a string')
+              else:
+                  if len(name) < 1 or len(name) > 64:
+                      errors.append(f'{skill_file}: name must be 1-64 characters (got {len(name)})')
+                  if not name_re.match(name):
+                      errors.append(f'{skill_file}: name must be lowercase alphanumeric with single hyphens (got "{name}")')
+                  if name.lower() in ('anthropic', 'claude'):
+                      errors.append(f'{skill_file}: name cannot be a reserved word ("anthropic", "claude")')
+                  # Name must match parent directory
+                  expected_dir = skill_file.parent.name
+                  if name != expected_dir:
+                      errors.append(f'{skill_file}: name "{name}" must match parent directory "{expected_dir}"')
+
+              # description validation
+              desc = fm.get('description', '')
+              if not isinstance(desc, str):
+                  errors.append(f'{skill_file}: description must be a string')
+              else:
+                  if len(desc) < 1 or len(desc) > 1024:
+                      errors.append(f'{skill_file}: description must be 1-1024 characters (got {len(desc)})')
+                  if '<' in desc and '>' in desc:
+                      errors.append(f'{skill_file}: description must not contain XML tags')
+
+              # Body length check (warning only)
+              body = parts[2]
+              body_lines = body.count('\n')
+              if body_lines > 500:
+                  print(f'⚠️  {skill_file}: body has {body_lines} lines (recommendation: <500)')
+
+          if errors:
+              print('\n❌ VALIDATION FAILED:\n')
+              for e in errors:
+                  print(f'  • {e}')
+              sys.exit(1)
+
+          print(f'\n✅ All {len(skill_files)} skill(s) valid')
+          EOF

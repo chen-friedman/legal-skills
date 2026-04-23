@@ -1,0 +1,29 @@
+# Enforce LF line endings in the repo across all platforms.
+# Cross-platform contributors get consistent files, CI runs identically.
+
+* text=auto eol=lf
+
+# Python and shell scripts: always LF
+*.py text eol=lf
+*.sh text eol=lf
+
+# Config / markdown / YAML / JSON: LF
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.jsonc text eol=lf
+*.toml text eol=lf
+*.ini text eol=lf
+*.cfg text eol=lf
+
+# CSV test fixtures: LF (so tests behave identically across OS)
+*.csv text eol=lf
+
+# Explicit binary markers (nothing currently binary, but guard against future images)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary

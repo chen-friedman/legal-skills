@@ -1,0 +1,58 @@
+name: Test extract.py
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills/mapping-legal-cases/scripts/**'
+      - 'tests/**'
+      - '.github/workflows/test-extract.yml'
+  pull_request:
+    paths:
+      - 'skills/mapping-legal-cases/scripts/**'
+      - 'tests/**'
+      - '.github/workflows/test-extract.yml'
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.11', '3.12']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install core dependencies
+        run: |
+          pip install pymupdf pdfplumber python-docx openpyxl Pillow pytest
+
+      - name: Install pandoc (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get update && sudo apt-get install -y pandoc
+
+      - name: Install pandoc (macOS)
+        if: matrix.os == 'macos-latest'
+        run: brew install pandoc
+
+      - name: Install pandoc (Windows)
+        if: matrix.os == 'windows-latest'
+        run: choco install pandoc -y
+
+      - name: Run preflight
+        run: python skills/mapping-legal-cases/scripts/extract.py --preflight --pretty
+
+      - name: Test folder scan on sample
+        run: python skills/mapping-legal-cases/scripts/extract.py --scan examples/sample-case-folder --pretty
+
+      - name: Run unit tests (if present)
+        if: hashFiles('tests/**/test_*.py') != ''
+        run: pytest tests/ -v
