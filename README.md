@@ -49,42 +49,80 @@
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start — pick the easiest route for your tool
 
-### Claude Code (one command)
+> **All commands below have been tested end-to-end. If any fails, please [open an issue](https://github.com/chen-friedman/legal-skills/issues).**
 
-```bash
+### 🎯 Option A — Claude Code (two commands)
+
+Inside Claude Code, run:
+
+```
 /plugin marketplace add chen-friedman/legal-skills
 /plugin install legal-skills@chen-friedman
 ```
 
-Then, in any case folder, simply ask:
+That's it. Restart Claude Code if prompted, then in any case folder ask:
+> "Map this case folder"
 
+Verify it installed:
 ```
-Map this case folder
+/plugin list
 ```
+You should see `legal-skills@chen-friedman` with status `enabled`.
 
-### OpenCode
+### 🎯 Option B — Claude.ai (web app) — ZIP upload
+
+1. Download the latest skill ZIP: **[mapping-legal-cases.zip](https://github.com/chen-friedman/legal-skills/releases/latest/download/mapping-legal-cases.zip)**
+2. Go to **[claude.ai](https://claude.ai)** → **Settings** → **Customize** → **Skills**
+3. Click **Upload custom skill**, select the ZIP
+4. Enable it, then in any conversation upload your case files and ask: *"Map this case folder."*
+
+Available on Free, Pro, Max, Team, and Enterprise plans with **code execution enabled**.
+
+### 🎯 Option C — OpenCode
 
 ```bash
 git clone https://github.com/chen-friedman/legal-skills.git
-# Copy or symlink skills/mapping-legal-cases to ~/.config/opencode/skills/
+# Windows PowerShell:
+New-Item -ItemType SymbolicLink -Path "$HOME\.config\opencode\skills\mapping-legal-cases" -Target "$PWD\legal-skills\skills\mapping-legal-cases"
+# macOS / Linux:
+ln -s "$PWD/legal-skills/skills/mapping-legal-cases" ~/.config/opencode/skills/mapping-legal-cases
 ```
 
-### Claude.ai (web)
+### 🎯 Option D — Cursor / Copilot / Gemini CLI / OpenHands / Goose / Kiro / Roo Code / any other [agentskills.io](https://agentskills.io)-compatible tool
 
-1. Clone the repo
-2. Zip the `skills/mapping-legal-cases/` folder
-3. Upload in **Settings → Features → Skills**
+```bash
+git clone https://github.com/chen-friedman/legal-skills.git
+```
 
-### Any Other Agent Skills Platform
+Then point your tool at `legal-skills/skills/mapping-legal-cases/`. See your tool's documentation for the exact skill directory path.
 
-Clone the repo and point your tool at `skills/mapping-legal-cases/`. Works with [30+ compatible platforms](https://agentskills.io#clients).
+### 🎯 Option E — No-install: paste this prompt into any AI tool
 
-**Verify your environment:**
+If you can't install skills in your tool, copy-paste the skill directly into your chat:
+
+1. Open [`skills/mapping-legal-cases/SKILL.md`](./skills/mapping-legal-cases/SKILL.md) raw on GitHub
+2. Paste the full contents into your AI chat (Claude, ChatGPT, Gemini, etc.) with this prompt:
+
+```
+I'll give you a skill definition. Read and internalize it, then apply it to my case folder.
+Confirm you've loaded the skill, ask for the case folder path, then run the mapping workflow.
+
+--- SKILL DEFINITION START ---
+[paste SKILL.md contents here]
+--- SKILL DEFINITION END ---
+```
+
+This won't be as efficient as a native skill install, but it works everywhere.
+
+### ✅ Verify your environment (after any install method)
+
 ```bash
 python skills/mapping-legal-cases/scripts/extract.py --preflight --pretty
 ```
+
+This tells you which extractors are available on your machine (PDF, Word, Excel, OCR, transcription). The skill adapts automatically to whatever's installed.
 
 ---
 
@@ -175,62 +213,7 @@ See [SECURITY.md](./SECURITY.md) for vulnerability reporting.
 
 ---
 
-## 📦 Installation Per Platform
-
-<details>
-<summary><b>Claude Code</b> (easiest — one command)</summary>
-
-```bash
-/plugin marketplace add chen-friedman/legal-skills
-/plugin install legal-skills@chen-friedman
-```
-
-After install, just mention case mapping in any conversation.
-</details>
-
-<details>
-<summary><b>OpenCode</b></summary>
-
-```bash
-git clone https://github.com/chen-friedman/legal-skills.git ~/legal-skills
-# Option A: symlink
-ln -s ~/legal-skills/skills/mapping-legal-cases ~/.config/opencode/skills/mapping-legal-cases
-
-# Option B: copy
-cp -r ~/legal-skills/skills/mapping-legal-cases ~/.config/opencode/skills/
-```
-
-On Windows PowerShell:
-```powershell
-New-Item -ItemType SymbolicLink -Path "$HOME\.config\opencode\skills\mapping-legal-cases" -Target "$HOME\legal-skills\skills\mapping-legal-cases"
-```
-</details>
-
-<details>
-<summary><b>Claude.ai (web app)</b></summary>
-
-1. Download / clone the repo
-2. Zip the `skills/mapping-legal-cases/` folder into `mapping-legal-cases.zip`
-3. Open Claude.ai → Settings → Features → Skills → Upload custom skill
-4. Upload your zip
-</details>
-
-<details>
-<summary><b>Claude API</b></summary>
-
-Use the [Skills API](https://docs.claude.com/en/api/skills-guide) to upload the skill. Required beta headers:
-- `skills-2025-10-02`
-- `code-execution-2025-08-25`
-- `files-api-2025-04-14`
-</details>
-
-<details>
-<summary><b>Cursor, GitHub Copilot, Gemini CLI, OpenHands, Goose, Codex, Kiro, Roo Code, and 20+ others</b></summary>
-
-All support the [Agent Skills open standard](https://agentskills.io). Clone the repo, point your tool at `skills/mapping-legal-cases/`, and it'll work. See each tool's documentation for the exact skill directory path.
-</details>
-
-### Recommended Dependencies
+## 📦 Optional Dependencies
 
 The skill works with **zero dependencies** for plain text / CSV / JSON / Markdown / `.eml` emails. Install what you need for richer formats:
 

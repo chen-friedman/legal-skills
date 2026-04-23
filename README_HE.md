@@ -49,42 +49,80 @@
 
 ---
 
-## 🚀 התחלה מהירה
+## 🚀 התחלה מהירה — בחרו את המסלול הקל ביותר עבורכם
 
-### Claude Code (פקודה אחת)
+> **כל הפקודות למטה נבדקו end-to-end. אם משהו לא עובד — [פתחו issue](https://github.com/chen-friedman/legal-skills/issues).**
 
-```bash
+### 🎯 אפשרות A — Claude Code (שתי פקודות)
+
+בתוך Claude Code, הריצו:
+
+```
 /plugin marketplace add chen-friedman/legal-skills
 /plugin install legal-skills@chen-friedman
 ```
 
-ואז, בכל תיקיית תיק, פשוט בקשו:
+זהו. הפעילו מחדש את Claude Code אם מתבקשים, ואז בכל תיקיית תיק שאלו:
+> "מפה את תיקיית התיק הזו"
 
+לוודא התקנה:
 ```
-מפה את תיקיית התיק הזו
+/plugin list
 ```
+אמור להופיע `legal-skills@chen-friedman` עם סטטוס `enabled`.
 
-### OpenCode
+### 🎯 אפשרות B — Claude.ai (אפליקציית ווב) — העלאת ZIP
+
+1. הורידו את קובץ ה-ZIP של ה-skill: **[mapping-legal-cases.zip](https://github.com/chen-friedman/legal-skills/releases/latest/download/mapping-legal-cases.zip)**
+2. היכנסו ל-**[claude.ai](https://claude.ai)** → **Settings** → **Customize** → **Skills**
+3. לחצו **Upload custom skill**, בחרו את ה-ZIP
+4. הפעילו, ובכל שיחה העלו את קבצי התיק ושאלו: *"מפה את תיקיית התיק הזו."*
+
+זמין במסלולי Free, Pro, Max, Team ו-Enterprise עם **code execution מופעל**.
+
+### 🎯 אפשרות C — OpenCode
 
 ```bash
 git clone https://github.com/chen-friedman/legal-skills.git
-# העתיקו או צרו symlink של skills/mapping-legal-cases ל-~/.config/opencode/skills/
+# Windows PowerShell:
+New-Item -ItemType SymbolicLink -Path "$HOME\.config\opencode\skills\mapping-legal-cases" -Target "$PWD\legal-skills\skills\mapping-legal-cases"
+# macOS / Linux:
+ln -s "$PWD/legal-skills/skills/mapping-legal-cases" ~/.config/opencode/skills/mapping-legal-cases
 ```
 
-### Claude.ai (ווב)
+### 🎯 אפשרות D — Cursor / Copilot / Gemini CLI / OpenHands / Goose / Kiro / Roo Code / כל כלי אחר שתומך ב-[agentskills.io](https://agentskills.io)
 
-1. שכפלו את הריפו
-2. Zip של תיקיית `skills/mapping-legal-cases/`
-3. העלו ב-**Settings → Features → Skills**
+```bash
+git clone https://github.com/chen-friedman/legal-skills.git
+```
 
-### כל פלטפורמה אחרת שתומכת ב-Agent Skills
+ואז הצביעו על `legal-skills/skills/mapping-legal-cases/` דרך הכלי שלכם. ראו בתיעוד של הכלי את נתיב המיומנויות המדויק.
 
-שכפלו את הריפו והצביעו על `skills/mapping-legal-cases/` דרך הכלי שלכם. עובד עם [30+ פלטפורמות תואמות](https://agentskills.io#clients).
+### 🎯 אפשרות E — ללא התקנה: הדביקו את ה-prompt הבא בכל AI
 
-**בדקו את הסביבה:**
+אם אי אפשר להתקין מיומנויות בכלי שלכם, העתיקו את ה-skill ישירות לצ'אט:
+
+1. פתחו את [`skills/mapping-legal-cases/SKILL.md`](./skills/mapping-legal-cases/SKILL.md) ב-GitHub (raw)
+2. הדביקו את כל התוכן לצ'אט (Claude, ChatGPT, Gemini וכו') עם ה-prompt הזה:
+
+```
+אני אתן לך הגדרת skill. קרא והפנים אותה, ואז יישם אותה על תיקיית התיק שלי.
+אשר שטענת את ה-skill, בקש את נתיב תיקיית התיק, ואז הרץ את workflow המיפוי.
+
+--- SKILL DEFINITION START ---
+[הדביקו כאן את תוכן SKILL.md]
+--- SKILL DEFINITION END ---
+```
+
+זה לא יעיל כמו התקנה ילידית, אבל עובד בכל מקום.
+
+### ✅ בדיקת הסביבה (אחרי כל שיטת התקנה)
+
 ```bash
 python skills/mapping-legal-cases/scripts/extract.py --preflight --pretty
 ```
+
+זה מראה אילו מחלצים זמינים במכונה (PDF, Word, Excel, OCR, תמלול). ה-skill מסתגל אוטומטית למה שמותקן.
 
 ---
 

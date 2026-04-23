@@ -1,6 +1,6 @@
 ---
 name: mapping-legal-cases
-description: Maps a folder of legal case documents into a structured analysis brief with 10 cross-referenced files (parties, timeline, claims, evidence, gaps, risks, deadlines, inventory, keyword glossary, privacy flags). Extracts text from PDFs, Word, emails, spreadsheets, CSVs, markdown, images, audio, and video. Use whenever the user wants to map a case folder, analyze case documents, extract dates from legal files, build a case file index, summarize a case, prepare for a hearing, identify missing documents, or says "map this case", "analyze this case folder", "what's in this case", "extract dates", "build a case brief", "case intake". Works across legal systems, in English, Hebrew, Arabic, Spanish, French, German, Russian, Portuguese (language packs lazy-loaded). Auto-adapts to whatever extraction tools are installed (OCR and transcription used when available; gracefully degrades).
+description: Maps legal case folders (PDFs, Word, emails, images, audio, video) into 10 cross-referenced analysis files. Use for case intake, briefing, deadlines, timeline extraction.
 license: Apache-2.0
 metadata:
   author: Chen Friedman / Lawcal AI

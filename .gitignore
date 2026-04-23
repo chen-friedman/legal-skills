@@ -36,7 +36,7 @@ opencode.json.backup*
 # Claude Code local
 .claude/local/
 
-# Build / dist
+# Build / dist (ZIPs are attached to GitHub Releases, not committed)
 dist/
 build/
 *.zip
